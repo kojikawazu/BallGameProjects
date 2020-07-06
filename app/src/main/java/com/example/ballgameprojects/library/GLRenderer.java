@@ -26,14 +26,15 @@ import javax.microedition.khronos.opengles.GL10;
 public class GLRenderer implements GLSurfaceView.Renderer{
 
     /* システム */
-    private MainActivity activity;
-    private	GL10			_gl10;
-    private int				screenW, screenH;
-    private SceneManager sceneManager;
-    private int 			frame = 0;
-    private long 			lastTime = 0;
-    private HashMap<String, Graph2D> textureMap;
-    public Random random;
+    private MainActivity                activity;
+    private	GL10			            _gl10;
+    private int				            screenW, screenH;
+    private SceneManager                sceneManager;
+    private int 			            frame = 0;
+    private long 			            lastTime = 0;
+    private HashMap<String, Graph2D>    textureMap;
+    public Random                       random;
+    private int                         startCnt= 0;
 
     /* 2Dバッファ */
     private FloatBuffer vertexBuffer;
@@ -47,8 +48,7 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         activity = _activity;
         this.textureMap = new HashMap<String, Graph2D>();
         this.sceneManager = new SceneManager(this);
-
-
+        startCnt= 0;
     }
 
     /*--------------------------------------------------------------------*/
@@ -110,13 +110,13 @@ public class GLRenderer implements GLSurfaceView.Renderer{
         this.screenH = ((MainActivity)activity).GetScreenHeight();
 
         System.out.println("onSurfaceChanged isScene:" + sceneManager.IsScene());
-        if( debug == 0 && !sceneManager.IsScene() ) {
-            debug++;
+        if( startCnt == 0 && !sceneManager.IsScene() ) {
+            startCnt++;
             sceneManager.Add(new LoadingScene(sceneManager));
         }
     }
 
-    private int debug = 0;
+
 
     @Override
     public void onDrawFrame(GL10 gl10) {
